@@ -67,20 +67,34 @@ class EditModel(object):
 
     word = "<" + word # append start token
     ret = []
-    for i in xrange(1, len(word)):
+    for i in xrange(1, len(word)+1):
       for alpha in self.ALPHABET:
         corruptLetters = word[i-1:i]
         correctLetters = "%s%s" % (word[i-1:i],alpha)
-        correction = "%s%s%s" % (word[1:i+1], alpha, word[i+1:])
+        correction = "%s%s%s" % (word[1:i], alpha, word[i:])
         ret.append(Edit(correction, corruptLetters, correctLetters))
-    return []
+        #print "%s %s %s" % (correction, corruptLetters, correctLetters)
+    #print len(ret)
+    return ret
 
   def transposeEdits(self, word):
     """Returns a list of edits of 1-transpose distance words and rules used to generate them."""
     # TODO: write this
     # Tip: If tranposing letters 'te' in the word 'test', the corrupt signal is 'te'
     #      and the correct signal is 'et'. See slide 17 of the noisy channel model.
-    return []
+    if len(word) <= 0:
+      return []
+
+    ret = []
+    for i in xrange(0, len(word)-1):
+
+      corruptLetters = word[i:i+2] 
+
+      correctLetters = "%s%s" % (word[i+1],word[i])
+      correction = "%s%s%s" % (word[0:i], correctLetters, word[i+2:])
+
+      ret.append(Edit(correction, corruptLetters, correctLetters))
+    return ret
 
   def replaceEdits(self, word):
     """Returns a list of edits of 1-replace distance words and rules used to generate them."""
@@ -88,7 +102,17 @@ class EditModel(object):
     # Tip: you might find EditModel.ALPHABET helpful
     # Tip: If replacing the letter 'e' with 'q' in the word 'test', the corrupt signal is 'e'
     #      and the correct signal is 'q'. See slide 17 of the noisy channel model.
-    return []
+    if len(word) <= 0:
+      return []
+
+    ret = []
+    for i in xrange(0, len(word)):
+      for alpha in self.ALPHABET:
+        corruptLetters = word[i]
+        correctLetters = alpha
+        correction = "%s%s%s" % (word[0:i], alpha, word[i+1:])
+        ret.append(Edit(correction, corruptLetters, correctLetters))
+    return ret
 
   def edits(self, word):
     """Returns a list of tuples of 1-edit distance words and rules used to generate them, e.g. ("test", "te|et")"""
@@ -117,6 +141,8 @@ class EditModel(object):
 
 def checkOverlap(edits, gold):
   """Checks / prints the overlap between a guess and gold set."""
+  #print len(edits)
+  #print len(gold)
   percentage = 100 * float(len(edits & gold)) / len(gold)
   missing = gold - edits
   extra = edits - gold

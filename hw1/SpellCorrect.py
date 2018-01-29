@@ -41,8 +41,19 @@ class SpellCorrect:
       # Tip: self.editModel.editProbabilities(word) gives edits and log-probabilities according to your edit model.
       #      You should iterate through these values instead of enumerating all edits.
       # Tip: self.languageModel.score(trialSentence) gives log-probability of a sentence
-      pass
-
+      tup = self.editModel.editProbabilities(sentence[i])
+      
+      for j in range(len(tup)):
+        #print sentence
+        newSen = sentence[0:i]
+        newSen.append(tup[j][0])
+        newSen.extend(sentence[i+1:])
+        #print newSen
+        if (self.languageModel.score(newSen) + tup[j][1]) > bestScore:
+          bestSentence = newSen
+          bestScore = self.languageModel.score(newSen) + tup[j][1]
+    #print bestScore
+    #print bestSentence
     return bestSentence
 
   def evaluate(self, corpus):  
