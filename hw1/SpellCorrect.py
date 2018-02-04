@@ -93,7 +93,7 @@ def main():
   devPath = 'data/tagged-dev.dat'
   devCorpus = Corpus(devPath)
 
-  print 'Unigram Language Model: ' 
+  """print 'Unigram Language Model: ' 
   unigramLM = UnigramModel(trainingCorpus)
   unigramSpell = SpellCorrect(unigramLM, trainingCorpus)
   unigramOutcome = unigramSpell.evaluate(devCorpus)
@@ -121,7 +121,7 @@ def main():
   backoffLM = BackoffModel(trainingCorpus)
   backoffSpell = SpellCorrect(backoffLM, trainingCorpus)
   backoffOutcome = backoffSpell.evaluate(devCorpus)
-  print str(backoffOutcome)
+  print str(backoffOutcome)"""
 
   print 'Custom Language Model: '
   customLM = CustomModel(trainingCorpus)
