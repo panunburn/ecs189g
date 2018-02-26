@@ -34,10 +34,15 @@ emissions={}
 transitions={}
 transitionsTotal=defaultdict(int)
 emissionsTotal=defaultdict(int)
-
-with open(TAG_FILE) as tagFile, open(TOKEN_FILE) as tokenFile:
+length = 39832*1
+with open(TAG_FILE) as tagFile, open(TOKEN_FILE) as tokenFile:       
+        index = 1
 	for tagString, tokenString in izip(tagFile, tokenFile):
-
+                if index > length:
+                        #print index
+                        break
+                index += 1
+                #print length
 		tags=re.split("\s+", tagString.rstrip())
 		tokens=re.split("\s+", tokenString.rstrip())
 		pairs=zip(tags, tokens)
@@ -53,6 +58,7 @@ with open(TAG_FILE) as tagFile, open(TOKEN_FILE) as tokenFile:
 			# low for determiners).
 
 			if token not in vocab:
+                                #print token
 				vocab[token]=1
 				token=OOV_WORD
 
@@ -76,7 +82,8 @@ with open(TAG_FILE) as tagFile, open(TOKEN_FILE) as tokenFile:
 
 		transitions[prevtag][FINAL_STATE]+=1
 		transitionsTotal[prevtag]+=1
-
+		
+	
 for prevtag in transitions:
 	for tag in transitions[prevtag]:
 		print "trans %s %s %s" % (prevtag, tag, float(transitions[prevtag][tag]) / transitionsTotal[prevtag])

@@ -1,16 +1,21 @@
 #!/usr/bin/perl
 
-# Noah A. Smith
-# 2/21/08
+# Weiran Guo
+# 2/12/18
 # Runs the Viterbi algorithm (no tricks other than logmath!), given an
 # HMM, on sentences, and outputs the best state path.
 
 # Usage:  viterbi.pl hmm-file < text > tags
 
-# The hmm-file should include two kinds of lines.  One is a transition:
-# trans Q R P
-# where Q and R are whitespace-free state names ("from" and "to," 
-# respectively) and P is a probability.  The other kind of line is an 
+# The hmm-file should include three kinds of lines.  One is a tri_transition:
+# tri_trans PP P T R
+# where PP and P and T are whitespace-free state names ("from" and "to,"
+# respectively) and R is a probability.
+# One is a bi_transition:
+# bi_trans P T R
+# where P and T are whitespace-free state names ("from" and "to,"
+# respectively) and R is a probability.
+# The other kind of line is an
 # emission:
 # emit Q S P
 # where Q is a whitespace-free state name, S is a whitespace-free

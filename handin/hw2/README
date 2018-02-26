@@ -1,0 +1,13 @@
+Weiran Guo(912916431)
+
+the testing file for pub.23 is my.out
+my model is train_my.py
+
+usage:
+./train_hmm.py ptb.2-21.tgs ptb.2-21.txt > my.hmm
+
+./viterbi.pl my.hmm < ptb.23.txt > my.out
+
+
+
+
